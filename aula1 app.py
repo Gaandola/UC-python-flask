@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template,request
 app = Flask("projeto")
 
 #Rota primaria
@@ -15,6 +15,19 @@ def ola_mundo():
 def funcao_teste(variavel=""):
     return "Nova rota teste<br>Variavel: {}".format(variavel), 200 
 
+#Rota para o formulário
+@app.route ("/form")
+def form():
+    return render_template("form.html"),200
 
-
+#Rota tratamento do form
+@app.route("/form_recebe", methods= ["GET","POST"])
+def form_recebe():
+    nome=""
+    if request.method == "POST":
+        nome= request.form["nome"]
+        return "Nome: {}".format(nome),200
+    else:
+        return "Não chamar direto no GET", 200
+    
 app.run()
